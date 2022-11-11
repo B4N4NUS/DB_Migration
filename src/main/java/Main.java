@@ -120,7 +120,7 @@ public class Main extends JFrame {
                 System.out.println("Cant fill DB with junk data");
             }
         });
-        System.out.println("GUI CREATED");
+        System.out.println("Created GUI");
     }
 
 
@@ -130,15 +130,12 @@ public class Main extends JFrame {
         } catch (Exception ignored) {
         }
 
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                JFrame frame = new Main();
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
+        EventQueue.invokeLater(() -> {
+            JFrame frame = new Main();
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.pack();
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
         });
     }
 
@@ -151,7 +148,8 @@ public class Main extends JFrame {
         players = new ArrayList<Player>(HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("SELECT a FROM Player a").getResultList());
         events = new ArrayList<Event>(HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("SELECT a FROM Event a").getResultList());
         results = new ArrayList<Result>(HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("SELECT a FROM Result a").getResultList());
-        System.out.println(countries.size() + " " + olympics.size() + " " + players.size() + " " + events.size() + " " + results.size());
+//        System.out.println(countries.size() + " " + olympics.size() + " " + players.size() + " " + events.size() + " " + results.size());
+        System.out.println("All Tables Loaded Successfully");
         tx1.commit();
         session.close();
     }
@@ -247,6 +245,8 @@ public class Main extends JFrame {
         olympics.clear();
         players.clear();
         results.clear();
+
+        System.out.println("Dummy Data For DataBase Was Successfully Created");
     }
 
     public void getTask1() {
@@ -318,7 +318,6 @@ public class Main extends JFrame {
     public void getTask4() {
         HashMap<Country, Integer> coIn = new HashMap<>();
         HashSet<Country> couns = new HashSet<>();
-        char[] ae = new char[]{'a', 'e', 'u', 'o', 'i', 'y'};
         Country maxC = null;
         int max = 0;
         char sym;
@@ -366,7 +365,6 @@ public class Main extends JFrame {
             raw.add(new Tuplee(country, coIn.get(country)));
         }
         raw.sort(Comparator.comparingDouble(one -> 1.0 * one.num / one.name.getPopulation()));
-        //Collections.reverse(raw);
 
         System.out.println("\n\nTop 5 Countries with low win-rate:");
         for (int i = 0; i < Math.min(5, raw.size()); i++) {
